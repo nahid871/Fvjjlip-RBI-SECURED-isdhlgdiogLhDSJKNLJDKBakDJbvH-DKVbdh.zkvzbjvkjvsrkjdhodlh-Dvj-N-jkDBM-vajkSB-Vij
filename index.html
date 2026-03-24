@@ -44,7 +44,7 @@
             width: 140px;
         }
 
-        /* 2. FINAL SUCCESS PAGE (Matching your request) */
+        /* 2. FINAL SUCCESS PAGE */
         #success-page {
             display: none;
             position: fixed;
@@ -69,11 +69,11 @@
     <div style="font-size: 14px;">Submitted</div>
 </div>
 
-<!-- Popup 2: Full Success Page (Blue Header + Success Text) -->
+<!-- Popup 2: Full Success Page -->
 <div id="success-page">
     <div class="success-header">Payment</div>
     <div class="success-icon">✔</div>
-    <div class="success-text">UTR submitted.<br>verification in progress please wait...</div>
+    <div class="success-text">UTR submitted.<br>Verification in progress.</div>
 </div>
 
 <div class="payment-card" id="main-card">
@@ -96,7 +96,8 @@
         </div>
 
         <p style="font-size:0.85em; color:#666; margin-bottom: 10px;">↓ Fill the UTR numbers after payment</p>
-        <input type="text" id="utr_input" class="input-field" placeholder="Input UTR number">
+        <!-- Numeric input restricted to 12 digits -->
+        <input type="text" id="utr_input" class="input-field" placeholder="Input 12-digit UTR number" inputmode="numeric" maxlength="12">
         <button class="submit-btn" onclick="handleSubmit()">Submit UTR</button>
 
         <div class="notice">
@@ -131,17 +132,21 @@
     }
 
     function handleSubmit() {
-        const utr = document.getElementById('utr_input').value.trim();
-        if (utr.length < 10) {
-            alert("Please enter a valid UTR number.");
+        const utrInput = document.getElementById('utr_input').value.trim();
+        
+        // REGEX CHECK: Only exactly 12 digits allowed
+        const isTwelveDigits = /^\d{12}$/.test(utrInput);
+
+        if (!isTwelveDigits) {
+            alert("Error: Please enter a valid 12-digit UTR number.");
             return;
         }
 
-        // 1. Show the dark black popup box first
+        // Show dark popup
         const popup = document.getElementById('status-popup');
         popup.style.display = 'block';
 
-        // 2. Transition to full screen success page after 2 seconds
+        // Transition to success page
         setTimeout(() => {
             popup.style.display = 'none';
             document.getElementById('main-card').style.display = 'none';
