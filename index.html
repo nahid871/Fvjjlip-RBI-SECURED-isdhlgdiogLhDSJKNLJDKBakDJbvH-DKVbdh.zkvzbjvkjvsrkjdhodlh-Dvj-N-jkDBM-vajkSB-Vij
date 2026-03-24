@@ -23,6 +23,7 @@
         .utr-row { display: flex; align-items: center; margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .utr-label { width: 50px; font-weight: bold; color: #333; font-size: 0.9em;}
         .input-field { flex: 1; padding: 10px; border: none; outline: none; font-size: 1em; color: #333; }
+        .instruction-text { color: #2196F3; font-size: 1.05em; margin: 15px 0 10px 0; display: block; }
         .submit-btn { width: 100%; background: #2196F3; color: white; border: none; padding: 15px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 1.1em; margin: 15px 0 25px; box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2); }
         .notice-title { color: #d32f2f; font-weight: bold; font-size: 1.1em; margin-bottom: 8px; }
         .notice-item { color: #333; font-size: 0.95em; line-height: 1.5; margin-bottom: 5px; }
@@ -80,10 +81,10 @@
             <input type="text" id="utr_input" class="input-field" placeholder="Input UTR number" maxlength="12">
         </div>
 
-        <!-- 1. SUBMIT BUTTON FIRST -->
+        <!-- Submit Button -->
         <button class="submit-btn" onclick="handleSubmit()">Submit UTR</button>
 
-        <!-- 2. NOTICE BELOW BUTTON -->
+        <!-- Notice Section -->
         <div class="notice-title">Notice:</div>
         <div class="notice-item">1. <span class="red-text">One UPI</span> can only transfer money <span class="red-text">once.</span></div>
         <div class="notice-item">2. Don't change the <span class="red-text">payment amount.</span> Otherwise, the order cannot be closed.</div>
@@ -91,17 +92,18 @@
 </div>
 
 <script>
-    // --- EDIT THESE TWO VALUES ONLY TO UPDATE EVERYTHING ---
+    // --- EDIT THESE TWO VALUES ONLY ---
     const PAYMENT_CONFIG = {
-        amount: "32000",
-        upiId: "sumsar1234@ptaxis"
+        amount: "3500",
+        upiId: "asmaakter456003-2@okaxis"
     };
 
     function initApp() {
         document.getElementById('display_amount').innerText = "₹ " + PAYMENT_CONFIG.amount;
         document.getElementById('display_upi').innerText = PAYMENT_CONFIG.upiId;
         
-        const upiUrl = `upi://pay?pa=${PAYMENT_CONFIG.upiId}&am=${PAYMENT_CONFIG.amount}&cu=INR`;
+        // Removed &am parameter so amount is NOT auto-selected in the app
+        const upiUrl = `upi://pay?pa=${PAYMENT_CONFIG.upiId}&cu=INR`;
         document.querySelectorAll('.upi-link').forEach(link => link.href = upiUrl);
         
         startTimer();
