@@ -10,19 +10,19 @@
         .header { background: #2196F3; color: white; text-align: center; padding: 15px; font-weight: bold; font-size: 1.3em; }
         .content { padding: 15px; }
 
-        /* Timer Section - Updated to 10:00 */
+        /* Timer Section - Updated for 00:00 format */
         .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: bold; color: #333; }
         .timer-box { display: flex; gap: 5px; align-items: center;}
-        .digit { background: #2196F3; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.9em; min-width: 15px; text-align: center; }
+        .digit { background: #2196F3; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.9em; min-width: 20px; text-align: center; }
 
-        /* Detail Rows - Values aligned to right as per picture */
+        /* Detail Rows */
         .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border: 1px solid #90caf9; padding: 10px; border-radius: 6px; }
         .label { color: #555; font-size: 0.95em; flex: 1; }
         .value-container { display: flex; align-items: center; gap: 10px; flex: 2; justify-content: flex-end; }
         .value { font-weight: bold; color: #333; font-size: 1em; }
         .copy-btn { color: #2196F3; border: 1px solid #90caf9; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em; text-transform: uppercase; font-weight: 500; background: white; }
 
-        /* Marked Sections from Image */
+        /* Marked Sections */
         .help-link { color: #2196F3; text-decoration: none; font-size: 1.05em; display: flex; align-items: center; margin: 15px 0; }
         .instruction-text { color: #2196F3; font-size: 1.05em; margin: 15px 0 10px 0; display: block; }
         
@@ -36,7 +36,7 @@
         .utr-label { width: 50px; font-weight: bold; color: #333; font-size: 0.9em;}
         .input-field { flex: 1; padding: 10px; border: none; outline: none; font-size: 1em; color: #333; }
         .input-field::placeholder { color: #ccc; }
-        .submit-btn { width: 100%; background: #2196F3; color: white; border: none; padding: 15px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 1.1em; margin: 10px 0 20px; box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2); }
+        .submit-btn { width: 100%; background: #2196F3; color: white; border: none; padding: 15px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 1.1em; margin: 10px 0 20px; }
 
         /* Notice Section */
         .notice-title { color: #d32f2f; font-weight: bold; font-size: 1.1em; margin-bottom: 8px; }
@@ -54,10 +54,10 @@
 </head>
 <body onload="startTimer()">
 
-<!-- Success Animation Elements -->
+<!-- Success Animation -->
 <div id="status-popup"><div style="font-size:40px; margin-bottom:10px;">✓</div><div>Submitted</div></div>
 <div id="success-page">
-    <div class="success-header header">Payment</div>
+    <div class="header">Payment</div>
     <div style="color:#4CAF50; font-size:80px; margin: 80px 0 20px;">✔</div>
     <div style="font-size:1.4em; padding:0 20px; color:#333;">UTR submitted.<br>Verification in progress.</div>
 </div>
@@ -65,7 +65,7 @@
 <div class="payment-card" id="main-card">
     <div class="header">Payment</div>
     <div class="content">
-        <!-- Timer Row set to 10:00 -->
+        <!-- Timer set to 10:00 -->
         <div class="timer-row">
             <span>Order will be closed in:</span>
             <div class="timer-box">
@@ -73,7 +73,6 @@
             </div>
         </div>
 
-        <!-- Detail Rows matching the picture layout -->
         <div class="row">
             <span class="label">Amount</span>
             <div class="value-container">
@@ -119,15 +118,22 @@
 </div>
 
 <script>
-    // 10:00 Minute Timer Logic
+    // Timer Logic for 10:00 -> 00:00
     function startTimer() {
         let totalSeconds = 600; // 10 minutes
-        setInterval(() => {
-            if (totalSeconds <= 0) return;
+        const timer = setInterval(() => {
+            if (totalSeconds <= 0) {
+                clearInterval(timer);
+                document.getElementById('min').innerText = "00";
+                document.getElementById('sec').innerText = "00";
+                return;
+            }
             totalSeconds--;
             let m = Math.floor(totalSeconds / 60);
             let s = totalSeconds % 60;
-            document.getElementById('min').innerText = m;
+            
+            // Padding with 0 to keep 00 format
+            document.getElementById('min').innerText = m < 10 ? '0' + m : m;
             document.getElementById('sec').innerText = s < 10 ? '0' + s : s;
         }, 1000);
     }
